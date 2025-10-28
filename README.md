@@ -219,4 +219,6 @@ python -m unittest discover tests
 ## Citation
 
 If you use this framework in your research, please consider citing the original paper:
-*@article{https://doi.org/10.5281/zenodo.17103133, doi = {10.5281/ZENODO.17103133}, url = {https://zenodo.org/doi/10.5281/zenodo.17103133}, author = {Kim, Youngseong}, keywords = {Machine learning, Machine Learning, Supervised Machine Learning, Machine Learning/classification, Machine Learning/ethics, Machine Learning/standards, Unsupervised Machine Learning, Machine Learning/history, Machine Learning/trends, Machine Learning/economics, Supervised Machine Learning/standards, Unsupervised Machine Learning/classification}, language = {en}, title = {Window is Everything: A Grammar for Neural Operations}, publisher = {Zenodo}, year = {2025}, copyright = {Creative Commons Attribution 4.0 International}}
+```bash
+@article{https://doi.org/10.5281/zenodo.17103133, doi = {10.5281/ZENODO.17103133}, url = {https://zenodo.org/doi/10.5281/zenodo.17103133}, author = {Kim, Youngseong}, keywords = {Machine learning, Machine Learning, Supervised Machine Learning, Machine Learning/classification, Machine Learning/ethics, Machine Learning/standards, Unsupervised Machine Learning, Machine Learning/history, Machine Learning/trends, Machine Learning/economics, Supervised Machine Learning/standards, Unsupervised Machine Learning/classification}, language = {en}, title = {Window is Everything: A Grammar for Neural Operations}, publisher = {Zenodo}, year = {2025}, copyright = {Creative Commons Attribution 4.0 International}}
+```
