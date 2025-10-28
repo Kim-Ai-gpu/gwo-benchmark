@@ -1,6 +1,7 @@
 from .base import GWOModule
 from .complexity import ComplexityCalculator
 from .evaluator import BaseEvaluator, Evaluator
+from .hardware import measure_hardware_performance
 from .result import BenchmarkResult, AggregatedBenchmarkResult
 import csv
 import os

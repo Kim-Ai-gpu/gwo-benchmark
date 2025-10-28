@@ -1,6 +1,6 @@
 import torch
 from torch.utils.data import DataLoader
-from gwo_benchmark import run, Evaluator, BaseEvaluator
+from gwo_benchmark import run, Evaluator, BaseEvaluator, measure_hardware_performance
 from gwo_benchmark.base import GWOModule
 from examples.models.deformable_conv import DeformableConvGWO
 from examples.models.standard_conv import StandardConvGWO
@@ -67,9 +67,10 @@ class DeformableConvNetGWO(GWOModule):
         return self.net(x)
 
 class CustomEvaluator(BaseEvaluator):
-    def __init__(self, test_loader: DataLoader, device):
+    def __init__(self, test_loader: DataLoader, device, batch_size: int):
         self.test_loader = test_loader
         self.device = device
+        self.batch_size = batch_size
 
     def evaluate(self, model: GWOModule) -> dict:
         print(f"Running custom evaluation for {model.__class__.__name__}...")
@@ -88,11 +89,13 @@ class CustomEvaluator(BaseEvaluator):
 
         test_accuracy = 100 * correct / total
 
+        perf_metrics = measure_hardware_performance(model, self.test_loader, self.device, self.batch_size)
+
         return {
             "train_accuracy": 0.0,
             "test_accuracy": test_accuracy,
-            "latency_ms": -1.0,
-            "throughput_imgs_sec": -1.0,
+            "latency_ms": perf_metrics["latency_ms"],
+            "throughput_imgs_sec": perf_metrics["throughput_imgs_sec"],
         }
 
 
@@ -127,6 +130,15 @@ def main():
         seeds=seeds_to_run
     )
     print(aggregated_result)
+
+    # --- Option 3: Custom evaluator benchmark ---
+    print("\n--- Running a custom evaluator benchmark for Deformable Convolution ---")
+    dataset_cls = DATASET_REGISTRY.get("cifar10")
+    dataset = dataset_cls()
+    _, test_loader = dataset.get_loaders(batch_size=train_config["batch_size"], num_workers=train_config["num_workers"])
+    custom_evaluator = CustomEvaluator(test_loader, device, batch_size=train_config["batch_size"])
+    custom_result = run(deform_conv_model, custom_evaluator, result_dir="results")
+    print(custom_result)
 
 
 if __name__ == "__main__":
