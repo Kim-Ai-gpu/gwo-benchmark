@@ -26,6 +26,36 @@ The core idea is to break down any neural network operation (like Convolution or
     - **`C_D` (Descriptive Complexity):** How many basic "primitives" does it take to describe your operation's structure? (You define this based on our guide).
     - **`C_P` (Parametric Complexity):** How many extra parameters are needed to *generate* the operation's behavior dynamically? (e.g., the offset prediction network in Deformable Convolution). This is calculated automatically.
 
+## Understanding Your Score: The Tier System
+
+A score is just a number without context. To help you interpret your results, we've established a tier system based on the performance of well-known baseline operations on the CIFAR-10 dataset.
+
+The primary metric for evaluation is the **Efficiency Score**, which directly measures how much performance you achieve per unit of complexity.
+
+`Efficiency Score = Test Accuracy (%) / Ω_proxy`
+
+#### Baseline Results (on CIFAR-10)
+
+Here are the baseline results that define our tiers. Your goal is to design an operation with a higher Efficiency Score than these standards.
+
+| Model                  | Efficiency Score | Test Acc (%) | Ω_proxy | C_D | C_P (M) | Latency (ms) |
+| ---------------------- | ---------------- | ------------ | ------- | --- | ------- | ------------ |
+| **(StandardConv)**     | **11.55**        | 69.31        | 6.00    | 6   | 0.00    | 0.50         |
+| **(DeformableConv)**   | **8.68**         | 69.45        | 8.00    | 8   | 0.003   | 1.63         |
+| **(DepthwiseConv)**    | **7.67**         | 61.35        | 8.00    | 8   | 0.00    | 0.53         |
+
+#### The Architect's Tiers
+
+Based on these results, we define the following tiers. Strive to build models that achieve a higher tier by improving accuracy, reducing complexity, or both!
+
+| Tier | Efficiency Score Range | Description                                                                                             |
+| :--: | ---------------------- | ------------------------------------------------------------------------------------------------------- |
+|  **S**   | `> 15.0`               | **State-of-the-Art:** A truly innovative design that fundamentally breaks the existing trade-off curve. |
+|  **A**   | `12.0 - 15.0`          | **Excellent:** Outperforms standard convolution in efficiency. A highly competitive and smart design.       |
+|  **B**   | `8.0 - 12.0`           | **Promising:** A solid operator that is more efficient than complex baselines like DeformableConv.    |
+|  **C**   | `5.0 - 8.0`            | **Needs Improvement:** A functional design, but not yet competitive with standard efficient methods. |
+|  **D**   | `< 5.0`                | **Experimental:** An early-stage idea that requires significant improvement in either performance or complexity.  |
+
 ## Installation
 
 ```bash
@@ -98,33 +128,7 @@ if __name__ == "__main__":
 python run_benchmark.py
 ```
 
-You'll see a detailed analysis of your model's complexity and performance. Now, let's see what those numbers mean!
-
-## Understanding Your Score: The Tier System
-
-A raw score is meaningless without context. Our scoring system rewards operations that achieve high performance (Accuracy) with low complexity (`Ω_proxy`) and low latency. The goal is to beat the established baselines.
-
-#### Official Baseline Results (CIFAR-10, Standard Track)
-
-These results serve as the reference points for our tier system.
-
-| Model              | **Score** | Test Acc (%) | Ω_proxy  | C_D | C_P (M)  | Latency (ms) |
-|--------------------|-----------|--------------|----------|-----|----------|--------------|
-| `StandardConv`     | **422.4** | 29.57        | 6.00     | 6   | 0.00     | 0.51         |
-| `DeformableConv`   | **330.1** | 29.72        | 8.00     | 8   | 0.003    | 1.71         |
-| `DepthwiseConv`    | **216.5** | 19.49        | 8.00     | 8   | 0.00     | 0.54         |
-
-#### The Architect's Tier List
-
-Based on the baselines, here's how to interpret your score:
-
-| Tier | Score Range | Interpretation                                                                                                    |
-|:----:|:-----------:|:------------------------------------------------------------------------------------------------------------------|
-| **S**| **> 500**   | **Elite Tier:** You've likely discovered a novel operation that breaks the current efficiency frontier. State-of-the-art. |
-| **A**| **400-500** | **Excellent:** Your operation is highly competitive and well-balanced, on par with or exceeding the strong `StandardConv` baseline. |
-| **B**| **300-400** | **Promising:** A solid design with clear trade-offs. It's competitive, like `DeformableConv`, but might sacrifice some latency or complexity for accuracy. |
-| **C**| **200-300** | **Needs Improvement:** The operation is functional but likely has a significant weakness, similar to `DepthwiseConv`'s lower accuracy in our test. |
-| **D**| **< 200**   | **Experimental:** A great starting point for a new idea, but requires significant optimization to become competitive. |
+You'll see a detailed analysis of your model's complexity and performance, saved in the `benchmark_results` directory.
 
 ## Calculating Descriptive Complexity (`C_D`) with an LLM
 

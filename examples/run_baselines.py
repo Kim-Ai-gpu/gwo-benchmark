@@ -57,7 +57,7 @@ def main():
     }
     
     train_config = {
-        "epochs": 2,
+        "epochs": 30,
         "lr": 0.001,
         "momentum": 0.9,
         "batch_size": 64,
