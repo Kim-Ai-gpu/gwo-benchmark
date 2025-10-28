@@ -64,7 +64,8 @@ class MySimpleConv(GWOModule):
         return self.relu(self.conv(x))
 
     # This model has no dynamic components, so C_P is zero.
-    # We can omit get_parametric_complexity_modules() as it defaults to [].
+    def get_parametric_complexity_modules(self):
+        return []
 ```
 
 **Step 2: Create your benchmark script**
