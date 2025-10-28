@@ -95,7 +95,8 @@ if __name__ == "__main__":
 **Step 3: Run from your terminal**
 
 ```bash
-python run_benchmark.py```
+python run_benchmark.py
+```
 
 You'll see a detailed analysis of your model's complexity and performance. Now, let's see what those numbers mean!
 
