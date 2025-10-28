@@ -106,48 +106,49 @@ Calculating `C_D` requires mapping your operation's logic to our official "primi
 Here is a ready-to-use prompt template. Simply replace the placeholder with your `GWOModule` code.
 
 ```prompt
-**You are an expert in the GWO (Generalized Windowed Operation) framework for neural networks. Your task is to analyze a given `GWOModule` PyTorch code and calculate its Descriptive Complexity (`C_D`).**
+You are an expert in the GWO (Generalized Windowed Operation) framework for neural networks. Your task is to analyze a given GWOModule PyTorch code and calculate its Descriptive Complexity (CD).
 
-**1. Official Primitive Dictionary (v0.1):**
+1. Official Primitive Dictionary (v0.1):
 You MUST use the following primitives and their corresponding complexity scores.
 
-*   **Path (P) Primitives:**
-    *   `STATIC_SLIDING`: 1 (Fixed, local sliding window, e.g., standard convolution)
-    *   `GLOBAL_INDEXED`: 1 (Fixed, global connectivity, e.g., matrix multiplication)
-    *   `CONTENT_AWARE`: 2 (Data-dependent connectivity, requires a sub-network, e.g., deformable convolution)
+   Path (P) Primitives:
+       STATICSLIDING: 1 (Fixed, local sliding window, e.g., standard convolution)
+       GLOBALINDEXED: 1 (Fixed, global connectivity, e.g., matrix multiplication)
+       CONTENTAWARE: 2 (Data-dependent connectivity, requires a sub-network, e.g., deformable convolution)
 
-*   **Shape (S) Primitives:**
-    *   `DENSE_SQUARE(k)`: 1 (A dense kxk square, e.g., standard convolution)
-    *   `FULL_ROW`: 1 (An entire row, e.g., matrix multiplication)
-    *   `CAUSAL_1D`: 1 (1D causal mask, e.g., autoregressive models)
+   Shape (S) Primitives:
+       DENSESQUARE(k): 1 (A dense kxk square, e.g., standard convolution)
+       FULLROW: 1 (An entire row, e.g., matrix multiplication)
+       CAUSAL1D: 1 (1D causal mask, e.g., autoregressive models)
 
-*   **Weight (W) Primitives:**
-    *   `IDENTITY`: 1 (Weights are the input values themselves, unparameterized)
-    *   `SHARED_KERNEL`: 1 (A single, learnable kernel shared across all positions, e.g., convolution)
-    *   `DYNAMIC_ATTENTION`: 2 (Weights are computed dynamically based on input, requires a sub-network, e.g., self-attention)
+   Weight (W) Primitives:
+       IDENTITY: 1 (Weights are the input values themselves, unparameterized)
+       SHAREDKERNEL: 1 (A single, learnable kernel shared across all positions, e.g., convolution)
+       DYNAMICATTENTION: 2 (Weights are computed dynamically based on input, requires a sub-network, e.g., self-attention)
 
-**2. Your Task:**
-Analyze the PyTorch code for the GWOModule provided below. Break down its core operation into the GWO (P, S, W) components. For each component, identify the most appropriate primitive from the dictionary. Finally, sum the scores of the chosen primitives to determine the final `C_D`. Provide a step-by-step reasoning for your choices.
+2. Your Task:
+Analyze the PyTorch code for the GWOModule provided below. Break down its core operation into the GWO (P, S, W) components. For each component, identify the most appropriate primitive from the dictionary. Finally, sum the scores of the chosen primitives to determine the final CD. Provide a step-by-step reasoning for your choices.
 
-**3. PyTorch Code to Analyze:**
+3. PyTorch Code to Analyze:
+
 {{ PASTE YOUR GWOMODULE CODE HERE }}
 
-**4. Expected Output Format:**
+4. Expected Output Format:
 
-**Path (P) Analysis:**
-- [Your reasoning for choosing the Path primitive]
-- Chosen Primitive: `[PRIMITIVE_NAME]` (Score: X)
+Path (P) Analysis:
+  [Your reasoning for choosing the Path primitive]
+  Chosen Primitive: [PRIMITIVENAME] (Score: X)
 
-**Shape (S) Analysis:**
-- [Your reasoning for choosing the Shape primitive]
-- Chosen Primitive: `[PRIMITIVE_NAME]` (Score: Y)
+Shape (S) Analysis:
+  [Your reasoning for choosing the Shape primitive]
+  Chosen Primitive: [PRIMITIVENAME] (Score: Y)
 
-**Weight (W) Analysis:**
-- [Your reasoning for choosing the Weight primitive]
-- Chosen Primitive: `[PRIMITIVE_NAME]` (Score: Z)
+Weight (W) Analysis:
+  [Your reasoning for choosing the Weight primitive]
+  Chosen Primitive: [PRIMITIVENAME] (Score: Z)
 
-**Final Calculation:**
-- Total `C_D` = X + Y + Z
+Final Calculation:
+  Total CD = X + Y + Z
 ```
 
 ## How It Works
