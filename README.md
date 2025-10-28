@@ -213,7 +213,8 @@ Please see our `CONTRIBUTING.md` for more details.
 To ensure the integrity of the framework, please run tests before submitting a pull request.
 
 ```bash
-python -m unittest discover tests```
+python -m unittest discover tests
+```
 
 ## Citation
 
