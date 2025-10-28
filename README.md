@@ -26,36 +26,6 @@ The core idea is to break down any neural network operation (like Convolution or
     - **`C_D` (Descriptive Complexity):** How many basic "primitives" does it take to describe your operation's structure? (You define this based on our guide).
     - **`C_P` (Parametric Complexity):** How many extra parameters are needed to *generate* the operation's behavior dynamically? (e.g., the offset prediction network in Deformable Convolution). This is calculated automatically.
 
-## Understanding Your Score: The Tier System
-
-A score is just a number without context. To help you interpret your results, we've established a tier system based on the performance of well-known baseline operations on the CIFAR-10 dataset.
-
-The primary metric for evaluation is the **Efficiency Score**, which directly measures how much performance you achieve per unit of complexity.
-
-`Efficiency Score = Test Accuracy (%) / Ω_proxy`
-
-#### Baseline Results (on CIFAR-10)
-
-Here are the baseline results that define our tiers. Your goal is to design an operation with a higher Efficiency Score than these standards.
-
-| Model                  | Efficiency Score | Test Acc (%) | Ω_proxy | C_D | C_P (M) | Latency (ms) |
-| ---------------------- | ---------------- | ------------ | ------- | --- | ------- | ------------ |
-| **(StandardConv)**     | **11.55**        | 69.31        | 6.00    | 6   | 0.00    | 0.50         |
-| **(DeformableConv)**   | **8.68**         | 69.45        | 8.00    | 8   | 0.003   | 1.63         |
-| **(DepthwiseConv)**    | **7.67**         | 61.35        | 8.00    | 8   | 0.00    | 0.53         |
-
-#### The Architect's Tiers
-
-Based on these results, we define the following tiers. Strive to build models that achieve a higher tier by improving accuracy, reducing complexity, or both!
-
-| Tier | Efficiency Score Range | Description                                                                                             |
-| :--: | ---------------------- | ------------------------------------------------------------------------------------------------------- |
-|  **S**   | `> 15.0`               | **State-of-the-Art:** A truly innovative design that fundamentally breaks the existing trade-off curve. |
-|  **A**   | `12.0 - 15.0`          | **Excellent:** Outperforms standard convolution in efficiency. A highly competitive and smart design.       |
-|  **B**   | `8.0 - 12.0`           | **Promising:** A solid operator that is more efficient than complex baselines like DeformableConv.    |
-|  **C**   | `5.0 - 8.0`            | **Needs Improvement:** A functional design, but not yet competitive with standard efficient methods. |
-|  **D**   | `< 5.0`                | **Experimental:** An early-stage idea that requires significant improvement in either performance or complexity.  |
-
 ## Installation
 
 ```bash
@@ -130,6 +100,38 @@ python run_benchmark.py
 
 You'll see a detailed analysis of your model's complexity and performance, saved in the `benchmark_results` directory.
 
+---
+
+## Understanding Your Score: The Tier System
+
+A high score is good, but how high is high enough? To give your results context, we've established a tier system based on the performance of well-known baseline operations.
+
+Your goal is to design an operation that reaches A-Tier or pushes the boundaries into S-Tier.
+
+### The Leaderboard: Official Baselines (CIFAR-10, Official Track)
+
+This table serves as your primary reference point. The `Score` is a measure of efficiency (higher is better).
+
+| Model              | Score      | Test Acc (%) | Ω_proxy  | C_D  | C_P (M) | Latency (ms) | Tier |
+| ------------------ | ---------- | ------------ | -------- | ---- | ------- | ------------ | ---- |
+| **(StandardConv)** | **990.14** | **69.31**    | **6.00** | **6**| **0.0** | **0.50**     | **B**|
+| (DeformableConv)   | 771.40     | 69.45        | 8.00     | 8    | 0.003   | 1.63         | **C**|
+| (DepthwiseConv)    | 681.67     | 61.35        | 8.00     | 8    | 0.0     | 0.53         | **C**|
+
+### Tier Definitions
+
+-   **🏆 S-Tier (State-of-the-Art):** Your operation's efficiency score significantly surpasses all established baselines. It sets a new standard for what is possible and pushes the Pareto frontier.
+
+-   **🚀 A-Tier (Excellent):** Clearly outperforms the **StandardConv** baseline efficiency score. This indicates a highly competitive and well-designed operation that is production-ready.
+
+-   **✅ B-Tier (Solid Baseline):** Achieves an efficiency score comparable to **StandardConv**. Your operation is a robust and viable alternative to a classic, strong performer. This is the minimum target for a competitive design.
+
+-   **💡 C-Tier (Promising / Situational):** Demonstrates functionality but does not yet match the efficiency of StandardConv, like the Deformable and Depthwise baselines in our test. It might be valuable for specific niches that require its unique properties.
+
+-   **🔬 D-Tier (Experimental):** A novel idea that requires more tuning or fundamental refinement to become competitive against the established baselines.
+
+---
+
 ## Calculating Descriptive Complexity (`C_D`) with an LLM
 
 Calculating `C_D` requires mapping your operation's logic to our official "primitive" vocabulary. For complex operations, a Large Language Model (LLM) like GPT-4, Claude, or Gemini can help you with this analysis.
@@ -143,19 +145,19 @@ You are an expert in the GWO (Generalized Windowed Operation) framework for neur
 You MUST use the following primitives and their corresponding complexity scores.
 
    Path (P) Primitives:
-       STATICSLIDING: 1 (Fixed, local sliding window, e.g., standard convolution)
-       GLOBALINDEXED: 1 (Fixed, global connectivity, e.g., matrix multiplication)
-       CONTENTAWARE: 2 (Data-dependent connectivity, requires a sub-network, e.g., deformable convolution)
+       STATIC_SLIDING: 1 (Fixed, local sliding window, e.g., standard convolution)
+       GLOBAL_INDEXED: 1 (Fixed, global connectivity, e.g., matrix multiplication)
+       CONTENT_AWARE: 2 (Data-dependent connectivity, requires a sub-network, e.g., deformable convolution)
 
    Shape (S) Primitives:
-       DENSESQUARE(k): 1 (A dense kxk square, e.g., standard convolution)
-       FULLROW: 1 (An entire row, e.g., matrix multiplication)
-       CAUSAL1D: 1 (1D causal mask, e.g., autoregressive models)
+       DENSE_SQUARE(k): 1 (A dense kxk square, e.g., standard convolution)
+       FULL_ROW: 1 (An entire row, e.g., matrix multiplication)
+       CAUSAL_1D: 1 (1D causal mask, e.g., autoregressive models)
 
    Weight (W) Primitives:
        IDENTITY: 1 (Weights are the input values themselves, unparameterized)
-       SHAREDKERNEL: 1 (A single, learnable kernel shared across all positions, e.g., convolution)
-       DYNAMICATTENTION: 2 (Weights are computed dynamically based on input, requires a sub-network, e.g., self-attention)
+       SHARED_KERNEL: 1 (A single, learnable kernel shared across all positions, e.g., convolution)
+       DYNAMIC_ATTENTION: 2 (Weights are computed dynamically based on input, requires a sub-network, e.g., self-attention)
 
 2. Your Task:
 Analyze the PyTorch code for the GWOModule provided below. Break down its core operation into the GWO (P, S, W) components. For each component, identify the most appropriate primitive from the dictionary. Finally, sum the scores of the chosen primitives to determine the final CD. Provide a step-by-step reasoning for your choices.
@@ -168,15 +170,15 @@ Analyze the PyTorch code for the GWOModule provided below. Break down its core o
 
 Path (P) Analysis:
   [Your reasoning for choosing the Path primitive]
-  Chosen Primitive: [PRIMITIVENAME] (Score: X)
+  Chosen Primitive: [PRIMITIVE_NAME] (Score: X)
 
 Shape (S) Analysis:
   [Your reasoning for choosing the Shape primitive]
-  Chosen Primitive: [PRIMITIVENAME] (Score: Y)
+  Chosen Primitive: [PRIMITIVE_NAME] (Score: Y)
 
 Weight (W) Analysis:
   [Your reasoning for choosing the Weight primitive]
-  Chosen Primitive: [PRIMITIVENAME] (Score: Z)
+  Chosen Primitive: [PRIMITIVE_NAME] (Score: Z)
 
 Final Calculation:
   Total CD = X + Y + Z
@@ -211,10 +213,9 @@ Please see our `CONTRIBUTING.md` for more details.
 To ensure the integrity of the framework, please run tests before submitting a pull request.
 
 ```bash
-python -m unittest discover tests
-```
+python -m unittest discover tests```
 
 ## Citation
 
 If you use this framework in your research, please consider citing the original paper:
-*@article{https://doi.org/10.5281/zenodo.17103133, doi = {10.5281/ZENODO.17103133}, url = {https://zenodo.org/doi/10.5281/zenodo.17103133}, author = {Kim, Youngseong}, keywords = {Machine learning, Machine Learning, Supervised Machine Learning, Machine Learning/classification, Machine Learning/ethics, Machine Learning/standards, Unsupervised Machine Learning, Machine Learning/history, Machine Learning/trends, Machine Learning/economics, Supervised Machine Learning/standards, Unsupervised Machine Learning/classification}, language = {en}, title = {Window is Everything: A Grammar for Neural Operations}, publisher = {Zenodo}, year = {2025}, copyright = {Creative Commons Attribution 4.0 International}}*
+*@article{https://doi.org/10.5281/zenodo.17103133, doi = {10.5281/ZENODO.17103133}, url = {https://zenodo.org/doi/10.5281/zenodo.17103133}, author = {Kim, Youngseong}, keywords = {Machine learning, Machine Learning, Supervised Machine Learning, Machine Learning/classification, Machine Learning/ethics, Machine Learning/standards, Unsupervised Machine Learning, Machine Learning/history, Machine Learning/trends, Machine Learning/economics, Supervised Machine Learning/standards, Unsupervised Machine Learning/classification}, language = {en}, title = {Window is Everything: A Grammar for Neural Operations}, publisher = {Zenodo}, year = {2025}, copyright = {Creative Commons Attribution 4.0 International}}
