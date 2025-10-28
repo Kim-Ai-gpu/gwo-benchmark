@@ -130,9 +130,7 @@ You MUST use the following primitives and their corresponding complexity scores.
 Analyze the PyTorch code for the GWOModule provided below. Break down its core operation into the GWO (P, S, W) components. For each component, identify the most appropriate primitive from the dictionary. Finally, sum the scores of the chosen primitives to determine the final `C_D`. Provide a step-by-step reasoning for your choices.
 
 **3. PyTorch Code to Analyze:**
-```python
 {{ PASTE YOUR GWOMODULE CODE HERE }}
-```
 
 **4. Expected Output Format:**
 
