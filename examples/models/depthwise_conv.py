@@ -1,4 +1,3 @@
-# examples/models/depthwise_conv.py
 import torch
 import torch.nn as nn
 from gwo_benchmark.base import GWOModule
