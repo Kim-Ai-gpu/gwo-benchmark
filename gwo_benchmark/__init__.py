@@ -1,9 +1,10 @@
 from .base import GWOModule
 from .complexity import ComplexityCalculator
-from .evaluator import BaseEvaluator
+from .evaluator import BaseEvaluator, Evaluator
 from .result import BenchmarkResult, AggregatedBenchmarkResult
 import csv
 import os
+import dataclasses
 from datetime import datetime
 from typing import List, Optional, Union
 import random

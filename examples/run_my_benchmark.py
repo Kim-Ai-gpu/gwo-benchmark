@@ -2,9 +2,9 @@ import torch
 from torch.utils.data import DataLoader
 from gwo_benchmark import run, Evaluator, BaseEvaluator
 from gwo_benchmark.base import GWOModule
-from gwo_benchmark.datasets import DATASET_REGISTRY
-from examples.models.standard_conv import StandardConvGWO
 from examples.models.deformable_conv import DeformableConvGWO
+from examples.models.standard_conv import StandardConvGWO
+from gwo_benchmark.datasets import DATASET_REGISTRY
 from tqdm import tqdm
 
 class SimpleNet(torch.nn.Module):
@@ -13,9 +13,19 @@ class SimpleNet(torch.nn.Module):
         self.conv1 = conv_layer(3, 16, 3)
         self.pool = torch.nn.MaxPool2d(2, 2)
         self.conv2 = StandardConvGWO(16, 32, 3)
-        self.fc1 = torch.nn.Linear(32 * 6 * 6, 120)
+        # Calculate the flattened size dynamically
+        self._calculate_flattened_size()
+        self.fc1 = torch.nn.Linear(self.flattened_size, 120)
         self.fc2 = torch.nn.Linear(120, 84)
         self.fc3 = torch.nn.Linear(84, 10)
+
+    def _calculate_flattened_size(self):
+        # Create a dummy input tensor to determine the size after conv and pooling
+        dummy_input = torch.randn(1, 3, 32, 32) # Assuming input images are 32x32 (CIFAR10)
+        x = self.pool(self.conv1(dummy_input))
+        x = self.pool(self.conv2(x))
+        self.flattened_size = torch.flatten(x, 1).size(1)
+
 
     def forward(self, x):
         x = self.pool(self.conv1(x))
@@ -75,7 +85,7 @@ class CustomEvaluator(BaseEvaluator):
                 _, predicted = torch.max(outputs.data, 1)
                 total += labels.size(0)
                 correct += (predicted == labels).sum().item()
-        
+
         test_accuracy = 100 * correct / total
 
         return {
@@ -84,6 +94,7 @@ class CustomEvaluator(BaseEvaluator):
             "latency_ms": -1.0,
             "throughput_imgs_sec": -1.0,
         }
+
 
 def main():
     """Main function to run the benchmarks."""
@@ -107,12 +118,12 @@ def main():
     print("\n--- Running a multi-seed benchmark for Standard Convolution ---")
     seeds_to_run = [42, 123, 1024] # Define the seeds for multiple runs
     std_conv_model = StandardConvNetGWO()
-    
+
     # The same evaluator can be used for multiple runs
     aggregated_result = run(
-        std_conv_model, 
-        standard_evaluator, 
-        result_dir="results", 
+        std_conv_model,
+        standard_evaluator,
+        result_dir="results",
         seeds=seeds_to_run
     )
     print(aggregated_result)

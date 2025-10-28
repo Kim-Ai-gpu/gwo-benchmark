@@ -1,5 +1,6 @@
 import pkgutil
 import inspect
+import importlib
 from .base import BaseDataset
 
 DATASET_REGISTRY = {}
@@ -13,8 +14,7 @@ def register_dataset(name: str):
 def discover_datasets():
     """Automatically discovers and imports datasets in this package."""
     for _, name, _ in pkgutil.iter_modules(__path__):
-        module_name = f".{name}"
-        module = __import__(module_name, globals(), locals(), [], 1)
+        module = importlib.import_module(f".{name}", __name__)
         for _, cls in inspect.getmembers(module, inspect.isclass):
             if issubclass(cls, BaseDataset) and cls is not BaseDataset:
                 dataset_name = cls.__name__.lower().replace("dataset", "")
