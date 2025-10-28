@@ -95,10 +95,35 @@ if __name__ == "__main__":
 **Step 3: Run from your terminal**
 
 ```bash
-python run_benchmark.py
-```
+python run_benchmark.py```
 
-You'll see a detailed analysis of your model's complexity and performance, saved in the `benchmark_results` directory.
+You'll see a detailed analysis of your model's complexity and performance. Now, let's see what those numbers mean!
+
+## Understanding Your Score: The Tier System
+
+A raw score is meaningless without context. Our scoring system rewards operations that achieve high performance (Accuracy) with low complexity (`Ω_proxy`) and low latency. The goal is to beat the established baselines.
+
+#### Official Baseline Results (CIFAR-10, Standard Track)
+
+These results serve as the reference points for our tier system.
+
+| Model              | **Score** | Test Acc (%) | Ω_proxy  | C_D | C_P (M)  | Latency (ms) |
+|--------------------|-----------|--------------|----------|-----|----------|--------------|
+| `StandardConv`     | **422.4** | 29.57        | 6.00     | 6   | 0.00     | 0.51         |
+| `DeformableConv`   | **330.1** | 29.72        | 8.00     | 8   | 0.003    | 1.71         |
+| `DepthwiseConv`    | **216.5** | 19.49        | 8.00     | 8   | 0.00     | 0.54         |
+
+#### The Architect's Tier List
+
+Based on the baselines, here's how to interpret your score:
+
+| Tier | Score Range | Interpretation                                                                                                    |
+|:----:|:-----------:|:------------------------------------------------------------------------------------------------------------------|
+| **S**| **> 500**   | **Elite Tier:** You've likely discovered a novel operation that breaks the current efficiency frontier. State-of-the-art. |
+| **A**| **400-500** | **Excellent:** Your operation is highly competitive and well-balanced, on par with or exceeding the strong `StandardConv` baseline. |
+| **B**| **300-400** | **Promising:** A solid design with clear trade-offs. It's competitive, like `DeformableConv`, but might sacrifice some latency or complexity for accuracy. |
+| **C**| **200-300** | **Needs Improvement:** The operation is functional but likely has a significant weakness, similar to `DepthwiseConv`'s lower accuracy in our test. |
+| **D**| **< 200**   | **Experimental:** A great starting point for a new idea, but requires significant optimization to become competitive. |
 
 ## Calculating Descriptive Complexity (`C_D`) with an LLM
 
