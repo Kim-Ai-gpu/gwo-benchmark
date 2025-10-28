@@ -118,17 +118,24 @@ This table serves as your primary reference point. The `Score` is a measure of e
 | (DeformableConv)   | 771.40     | 69.45        | 8.00     | 8    | 0.003   | 1.63         | **C**|
 | (DepthwiseConv)    | 681.67     | 61.35        | 8.00     | 8    | 0.0     | 0.53         | **C**|
 
-### Tier Definitions
+### Tier Definitions and Score Thresholds
 
--   **🏆 S-Tier (State-of-the-Art):** Your operation's efficiency score significantly surpasses all established baselines. It sets a new standard for what is possible and pushes the Pareto frontier.
+To make these tiers concrete, we've established the following score thresholds based on our official CIFAR-10 benchmark results:
 
--   **🚀 A-Tier (Excellent):** Clearly outperforms the **StandardConv** baseline efficiency score. This indicates a highly competitive and well-designed operation that is production-ready.
+-   **🏆 S-Tier (State-of-the-Art): `Score >= 1800`**
+    Reserved for breakthrough operations that set a new standard for efficiency. These designs significantly push the Pareto frontier.
 
--   **✅ B-Tier (Solid Baseline):** Achieves an efficiency score comparable to **StandardConv**. Your operation is a robust and viable alternative to a classic, strong performer. This is the minimum target for a competitive design.
+-   **🚀 A-Tier (Excellent): `1250 <= Score < 1800`**
+    Clearly outperforms the strong **StandardConv** baseline. This indicates a highly competitive and well-designed operation that is production-ready.
 
--   **💡 C-Tier (Promising / Situational):** Demonstrates functionality but does not yet match the efficiency of StandardConv, like the Deformable and Depthwise baselines in our test. It might be valuable for specific niches that require its unique properties.
+-   **✅ B-Tier (Solid Baseline): `900 <= Score < 1250`**
+    A robust and competitive score. **StandardConv (Score: ~990)** is the key benchmark in this tier, making it the minimum target for a strong design.
 
--   **🔬 D-Tier (Experimental):** A novel idea that requires more tuning or fundamental refinement to become competitive against the established baselines.
+-   **💡 C-Tier (Promising): `500 <= Score < 900`**
+    A functional design with potential, but requires refinement to match the efficiency of top baselines. Our **DeformableConv (~771)** and **DepthwiseConv (~681)** results fall into this category.
+
+-   **🔬 D-Tier (Experimental): `Score < 500`**
+    Represents an early-stage concept. Keep innovating!
 
 ---
 
