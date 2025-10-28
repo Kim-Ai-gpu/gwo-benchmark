@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page_title }}</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            padding: 2rem;
+            background-color: #1a1a1a;
+            color: #f0f0f0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #2a2a2a;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+            border: 1px solid #444;
+        }
+        h1 {
+            text-align: center;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+        p.subtitle {
+            text-align: center;
+            margin-top: 0;
+            color: #a0a0a0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #444;
+        }
+        th {
+            background-color: #3a3a3a;
+            font-weight: 600;
+            color: #f0f0f0;
+        }
+        tr:nth-child(even) {
+            background-color: #303030;
+        }
+        tr:hover {
+            background-color: #4a4a4a;
+        }
+        .rank {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        .tier-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        a {
+            color: #4a90e2;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .tooltip {
+            position: relative;
+            cursor: pointer;
+            border-bottom: 1px dotted #f0f0f0;
+        }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        hr {
+            border-color: #444;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏆 {{ page_title }} 🏆</h1>
+        <p class="subtitle">An official leaderboard for efficient neural network operations.</p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Model</th>
+                    <th>Author</th>
+                    <th class="tooltip">Score ▾<span class="tooltiptext">Overall efficiency score. Higher is better!</span></th>
+                    <th class="tooltip">Test Acc<span class="tooltiptext">Accuracy on CIFAR-10</span></th>
+                    <th class="tooltip">Ω_proxy<span class="tooltiptext">Operational Complexity. Lower is better.</span></th>
+                    <th class="tooltip">C_D<span class="tooltiptext">Descriptive Complexity</span></th>
+                    <th class="tooltip">C_P (M)<span class="tooltiptext">Parametric Complexity (in Millions)</span></th>
+                    <th class="tooltip">Latency (ms)<span class="tooltiptext">Inference time per batch</span></th>
+                    <th>Tier</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in records %}
+                <tr>
+                    <td class="rank">{{ record.rank }}</td>
+                    <td>
+                        {% if record.github_link != '#' %}
+                            <a href="{{ record.github_link }}" target="_blank">{{ record.model_name }}</a>
+                        {% else %}
+                            {{ record.model_name }}
+                        {% endif %}
+                    </td>
+                    <td>{{ record.author }}</td>
+                    <td><b>{{ record.score }}</b></td>
+                    <td>{{ record.test_acc }}</td>
+                    <td>{{ record.omega_proxy }}</td>
+                    <td>{{ record.c_d }}</td>
+                    <td>{{ record.c_p_m }}</td>
+                    <td>{{ record.latency_ms }}</td>
+                    <td>{{ record.tier_badge | safe }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="container" style="margin-top: 2rem; text-align: center;">
+        <hr>
+        <p>If you want to add your own operation to the leaderboard, please contact us using the methods below.</p>
+        <p>
+            Email: <a href="mailto:dafaafafaf33@gmail.com">dafaafafaf33@gmail.com</a>
+        </p>
+        <p>
+            Discord: <a href="https://discord.gg/tfuYKTGTk5" target="_blank">https://discord.gg/tfuYKTGTk5</a>
+        </p>
+    </div>
+</body>
+</html>

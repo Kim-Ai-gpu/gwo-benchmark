@@ -1,5 +1,6 @@
 # GWO Benchmark: The Architect's Arena
 
+[![View Live Leaderboard](https://img.shields.io/badge/Live_Leaderboard-View_Now-2196F3?style=flat-square)](https://kim-ai-gpu.github.io/gwo-benchmark-leaderboard/)
 [![PyPI version](https://badge.fury.io/py/gwo-benchmark.svg)](https://badge.fury.io/py/gwo-benchmark)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -105,6 +106,10 @@ You'll see a detailed analysis of your model's complexity and performance, saved
 ## Understanding Your Score: The Tier System
 
 A high score is good, but how high is high enough? To give your results context, we've established a tier system based on the performance of well-known baseline operations.
+
+**Check your rank and see all submissions on the official live leaderboard!**
+
+[![View Live Leaderboard](https://img.shields.io/badge/View-The_Architect's_Arena-2196F3?style=for-the-badge&logo=github)](https://kim-ai-gpu.github.io/gwo-benchmark-leaderboard/)
 
 Your goal is to design an operation that reaches A-Tier or pushes the boundaries into S-Tier.
 

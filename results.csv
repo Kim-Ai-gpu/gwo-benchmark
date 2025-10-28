@@ -1,0 +1,4 @@
+model_name,author,score,test_acc,omega_proxy,c_d,c_p_m,latency_ms,tier,github_link
+StandardConv,Official Baseline,990.14,69.31,6.0,6,0.0,0.50,B,https://github.com/Kim-Ai-gpu/gwo-benchmark/blob/main/examples/models/standard_conv.py
+DeformableConv,Official Baseline,771.40,69.45,8.0,8,0.003,1.63,C,https://github.com/Kim-Ai-gpu/gwo-benchmark/blob/main/examples/models/deformable_conv.py
+DepthwiseConv,Official Baseline,681.67,61.35,8.0,8,0.0,0.53,C,https://github.com/Kim-Ai-gpu/gwo-benchmark/blob/main/examples/models/depthwise_conv.py

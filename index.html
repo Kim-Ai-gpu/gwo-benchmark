@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GWO Benchmark: The Architect's Arena</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            padding: 2rem;
+            background-color: #1a1a1a;
+            color: #f0f0f0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #2a2a2a;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+            border: 1px solid #444;
+        }
+        h1 {
+            text-align: center;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+        p.subtitle {
+            text-align: center;
+            margin-top: 0;
+            color: #a0a0a0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #444;
+        }
+        th {
+            background-color: #3a3a3a;
+            font-weight: 600;
+            color: #f0f0f0;
+        }
+        tr:nth-child(even) {
+            background-color: #303030;
+        }
+        tr:hover {
+            background-color: #4a4a4a;
+        }
+        .rank {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        .tier-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        a {
+            color: #4a90e2;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .tooltip {
+            position: relative;
+            cursor: pointer;
+            border-bottom: 1px dotted #f0f0f0;
+        }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        hr {
+            border-color: #444;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏆 GWO Benchmark: The Architect's Arena 🏆</h1>
+        <p class="subtitle">An official leaderboard for efficient neural network operations.</p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Model</th>
+                    <th>Author</th>
+                    <th class="tooltip">Score ▾<span class="tooltiptext">Overall efficiency score. Higher is better!</span></th>
+                    <th class="tooltip">Test Acc<span class="tooltiptext">Accuracy on CIFAR-10</span></th>
+                    <th class="tooltip">Ω_proxy<span class="tooltiptext">Operational Complexity. Lower is better.</span></th>
+                    <th class="tooltip">C_D<span class="tooltiptext">Descriptive Complexity</span></th>
+                    <th class="tooltip">C_P (M)<span class="tooltiptext">Parametric Complexity (in Millions)</span></th>
+                    <th class="tooltip">Latency (ms)<span class="tooltiptext">Inference time per batch</span></th>
+                    <th>Tier</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    <td class="rank">1</td>
+                    <td>
+                        
+                            <a href="https://github.com/Kim-Ai-gpu/gwo-benchmark/blob/main/examples/models/standard_conv.py" target="_blank">StandardConv</a>
+                        
+                    </td>
+                    <td>Official Baseline</td>
+                    <td><b>990.14</b></td>
+                    <td>69.31%</td>
+                    <td>6.00</td>
+                    <td>6</td>
+                    <td>0.000</td>
+                    <td>0.50</td>
+                    <td><span class="tier-badge" style="background-color: #2196F3; color: white;">B</span></td>
+                </tr>
+                
+                <tr>
+                    <td class="rank">2</td>
+                    <td>
+                        
+                            <a href="https://github.com/Kim-Ai-gpu/gwo-benchmark/blob/main/examples/models/deformable_conv.py" target="_blank">DeformableConv</a>
+                        
+                    </td>
+                    <td>Official Baseline</td>
+                    <td><b>771.40</b></td>
+                    <td>69.45%</td>
+                    <td>8.00</td>
+                    <td>8</td>
+                    <td>0.003</td>
+                    <td>1.63</td>
+                    <td><span class="tier-badge" style="background-color: #ff9800; color: white;">C</span></td>
+                </tr>
+                
+                <tr>
+                    <td class="rank">3</td>
+                    <td>
+                        
+                            <a href="https://github.com/Kim-Ai-gpu/gwo-benchmark/blob/main/examples/models/depthwise_conv.py" target="_blank">DepthwiseConv</a>
+                        
+                    </td>
+                    <td>Official Baseline</td>
+                    <td><b>681.67</b></td>
+                    <td>61.35%</td>
+                    <td>8.00</td>
+                    <td>8</td>
+                    <td>0.000</td>
+                    <td>0.53</td>
+                    <td><span class="tier-badge" style="background-color: #ff9800; color: white;">C</span></td>
+                </tr>
+                
+            </tbody>
+        </table>
+    </div>
+    <div class="container" style="margin-top: 2rem; text-align: center;">
+        <hr>
+        <p>If you want to add your own operation to the leaderboard, please contact us using the methods below.</p>
+        <p>
+            Email: <a href="mailto:dafaafafaf33@gmail.com">dafaafafaf33@gmail.com</a>
+        </p>
+        <p>
+            Discord: <a href="https://discord.gg/tfuYKTGTk5" target="_blank">https://discord.gg/tfuYKTGTk5</a>
+        </p>
+    </div>
+</body>
+</html>
