@@ -119,9 +119,9 @@ This table serves as your primary reference point. The `Score` is a measure of e
 
 | Model              | Score      | Test Acc (%) | Ω_proxy  | C_D  | C_P (M) | Latency (ms) | Tier |
 | ------------------ | ---------- | ------------ | -------- | ---- | ------- | ------------ | ---- |
-| **(StandardConv)** | **990.14** | **69.31**    | **6.00** | **6**| **0.0** | **0.50**     | **B**|
-| (DeformableConv)   | 771.40     | 69.45        | 8.00     | 8    | 0.003   | 1.63         | **C**|
-| (DepthwiseConv)    | 681.67     | 61.35        | 8.00     | 8    | 0.0     | 0.53         | **C**|
+| **StandardConv** | **990.14** | **69.31**    | **6.00** | **6**| **0.0** | **0.50**     | **B**|
+| DeformableConv   | 771.40     | 69.45        | 8.00     | 8    | 0.003   | 1.63         | **C**|
+| DepthwiseConv    | 681.67     | 61.35        | 8.00     | 8    | 0.0     | 0.53         | **C**|
 
 ### Tier Definitions and Score Thresholds
 
