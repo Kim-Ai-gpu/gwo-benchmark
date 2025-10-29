@@ -113,19 +113,32 @@ A high score is good, but how high is high enough? To give your results context,
 
 Your goal is to design an operation that reaches A-Tier or pushes the boundaries into S-Tier.
 
-### The Leaderboard: Official Baselines (CIFAR-10, Official Track)
+### Understanding Your Score: Benchmarks & Targets
 
-This table serves as your primary reference point. The `Score` is a measure of efficiency (higher is better).
+To provide clear context, we separate our official results into two categories: **Baseline Operations** (the basic building blocks) and **Reference Architectures** (the complete systems you aim to build).
 
-| Model              | Score      | Test Acc (%) | Ω_proxy  | C_D  | C_P (M) | Latency (ms) | Tier |
-| ------------------ | ---------- | ------------ | -------- | ---- | ------- | ------------ | ---- |
+#### Reference Architectures
+
+This table shows the performance and complexity of a well-known, powerful architecture. This is not a direct competitor for efficiency scores, but rather **the performance target you should aim for.** Can you design new operations that allow you to build an architecture that achieves this level of accuracy with a lower total complexity?
+
+| Model       | Test Acc (%)     | Total Ω_proxy | Total C_D | Total C_P (M) | Latency (ms) | Tier |
+| ----------- | ---------------- | ------------- | --------- | ------------- | ------------ | ---- |
+| **ResNetGWO** | **80.64%**       | **60.0**      | **60**    | **0.0**       | **15.35**    | **Target** |
+
+#### Baseline Operations
+
+This table lists the efficiency scores of individual operations. Your goal is to create new operations with a higher score than these classics, which you can then use to build more efficient architectures.
+
+| Model            | Score      | Test Acc (%) | Ω_proxy  | C_D  | C_P (M) | Latency (ms) | Tier |
+| ---------------- | ---------- | ------------ | -------- | ---- | ------- | ------------ | ---- |
 | **StandardConv** | **990.14** | **69.31**    | **6.00** | **6**| **0.0** | **0.50**     | **B**|
 | DeformableConv   | 771.40     | 69.45        | 8.00     | 8    | 0.003   | 1.63         | **C**|
 | DepthwiseConv    | 681.67     | 61.35        | 8.00     | 8    | 0.0     | 0.53         | **C**|
 
+---
 ### Tier Definitions and Score Thresholds
 
-To make these tiers concrete, we've established the following score thresholds based on our official CIFAR-10 benchmark results:
+The tier system applies to **individual operations**, not full architectures.
 
 -   **🏆 S-Tier (State-of-the-Art): `Score >= 1800`**
     Reserved for breakthrough operations that set a new standard for efficiency. These designs significantly push the Pareto frontier.
