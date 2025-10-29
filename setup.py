@@ -6,7 +6,7 @@ long_description = (this_directory / "README.md").read_text(encoding='utf-8')
 
 setup(
     name="gwo-benchmark",
-    version="0.2.13",
+    version="0.2.14",
     packages=find_packages(),
     install_requires=[
         "torch",
